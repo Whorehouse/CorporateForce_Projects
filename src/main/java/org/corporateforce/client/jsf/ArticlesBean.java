@@ -1,6 +1,5 @@
 package org.corporateforce.client.jsf;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +17,8 @@ public class ArticlesBean {
 
 	private Articles editArticle;
 	private Boolean createMode;
+	private List<Articles> articlesList;
 
-	@Autowired
-	private MainBean mainBean;
 	@Autowired
 	private UsersBean usersBean;
 	@Autowired
@@ -29,7 +27,14 @@ public class ArticlesBean {
 	private ArticlesPort articlesPort;
 
 	public List<Articles> getArticlesList() {
-		return articlesPort.listByProject(projectsBean.getCurrentProject().getId());
+		if (articlesList == null || projectsBean.getArticlesChanged())
+			refreshArticlesList();
+		projectsBean.setArticlesChanged(false);
+		return articlesList;
+	}
+
+	public void refreshArticlesList() {
+		articlesList = articlesPort.listByProject(projectsBean.getCurrentProject().getId());
 	}
 
 	public void actionEdit() {
@@ -52,6 +57,7 @@ public class ArticlesBean {
 		String id = params.get("deleteArticleId");
 		try {
 			articlesPort.delete(Integer.parseInt(id));
+			refreshArticlesList();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -59,25 +65,21 @@ public class ArticlesBean {
 		}
 	}
 
-	public Map<String, String> getStatusesMap() throws Exception {
-		Map<String, String> statuses = new HashMap<String, String>();
-		statuses.put("active", "Активный");
-		statuses.put("suspended", "Приостановлен");
-		statuses.put("closed", "Закрыт");
-		return statuses;
-	}
-
 	public void saveEdit() throws Exception {
+		editArticle.setBody(editArticle.getBody().replaceAll("\\r|\\n", ""));
 		if (createMode)
 			articlesPort.add(editArticle);
 		else
 			articlesPort.update(editArticle);
 		createMode = false;
+		refreshArticlesList();
 	}
 
 	public void actionCreate() {
 		createMode = true;
-		editArticle = new Articles();	
+		editArticle = new Articles();
+		editArticle.setProjects(projectsBean.getCurrentProject());
+		editArticle.setUsers(usersBean.getCurrentUser());
 	}
 
 	public Articles getEditArticle() {
@@ -87,5 +89,5 @@ public class ArticlesBean {
 	public void setEditArticle(Articles editArticle) {
 		this.editArticle = editArticle;
 	}
-	
+
 }

@@ -18,9 +18,8 @@ public class ObjectivesBean {
 
 	private Objectives editObjective;
 	private Boolean createMode;
+	private List<Objectives> objectivesList;
 
-	@Autowired
-	private MainBean mainBean;
 	@Autowired
 	private UsersBean usersBean;
 	@Autowired
@@ -29,7 +28,14 @@ public class ObjectivesBean {
 	private ObjectivesPort objectivesPort;
 
 	public List<Objectives> getObjectivesList() {
-		return objectivesPort.listByProject(projectsBean.getCurrentProject().getId());
+		if (objectivesList == null || projectsBean.getObjectivesChanged())
+			refreshObjectivesList();
+		projectsBean.setObjectivesChanged(false);
+		return objectivesList;
+	}
+
+	public void refreshObjectivesList() {
+		objectivesList = objectivesPort.listByProject(projectsBean.getCurrentProject().getId());
 	}
 
 	public void actionEdit() {
@@ -52,6 +58,7 @@ public class ObjectivesBean {
 		String id = params.get("deleteObjectiveId");
 		try {
 			objectivesPort.delete(Integer.parseInt(id));
+			refreshObjectivesList();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (Exception e) {
@@ -74,6 +81,7 @@ public class ObjectivesBean {
 		else
 			objectivesPort.update(editObjective);
 		createMode = false;
+		refreshObjectivesList();
 	}
 
 	public void actionCreate() {
@@ -90,5 +98,5 @@ public class ObjectivesBean {
 	public void setEditObjective(Objectives editObjective) {
 		this.editObjective = editObjective;
 	}
-	
+
 }

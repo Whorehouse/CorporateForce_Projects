@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
-import org.corporateforce.server.model.Articles;
 import org.corporateforce.server.model.Projects;
 import org.corporateforce.server.model.Users;
 import org.corporateforce.client.port.ArticlesPort;
@@ -28,10 +27,15 @@ public class ProjectsBean {
 	private MainBean mainBean;
 	@Autowired
 	private UsersBean usersBean;
+
 	@Autowired
 	private ProjectsPort projectsPort;
 	@Autowired
 	private ArticlesPort articlesPort;
+
+	private Boolean articlesChanged = false;
+	private Boolean objectivesChanged = false;
+	private Boolean ticketsChanged = false;
 
 	public List<Projects> getProjectsList() {
 		if (projectsList == null)
@@ -51,6 +55,9 @@ public class ProjectsBean {
 		this.currentProject = currentProject;
 		if (currentProject.getUsersByLead() == null)
 			currentProject.setUsersByLead(new Users());
+		articlesChanged = true;
+		objectivesChanged = true;
+		ticketsChanged = true;
 	}
 
 	public Projects getEditProject() {
@@ -111,7 +118,7 @@ public class ProjectsBean {
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		String id = params.get("currentProjectId");
 		try {
-			currentProject = projectsPort.get(Integer.parseInt(id));
+			setCurrentProject(projectsPort.get(Integer.parseInt(id)));		
 			mainBean.actionProjectPage();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -124,9 +131,31 @@ public class ProjectsBean {
 		createMode = true;
 		editProject = new Projects();
 		editProject.setUsersByCreator(usersBean.getCurrentUser());
-		editProject.setUsersByLead(new Users());	
+		editProject.setUsersByLead(new Users());
 	}
-	
-	
+
+	public Boolean getArticlesChanged() {
+		return articlesChanged;
+	}
+
+	public void setArticlesChanged(Boolean articlesChanged) {
+		this.articlesChanged = articlesChanged;
+	}
+
+	public Boolean getObjectivesChanged() {
+		return objectivesChanged;
+	}
+
+	public void setObjectivesChanged(Boolean objectivesChanged) {
+		this.objectivesChanged = objectivesChanged;
+	}
+
+	public Boolean getTicketsChanged() {
+		return ticketsChanged;
+	}
+
+	public void setTicketsChanged(Boolean ticketsChanged) {
+		this.ticketsChanged = ticketsChanged;
+	}
 
 }

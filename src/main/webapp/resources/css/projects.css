@@ -112,3 +112,13 @@
 .projects-text-document {
 	padding: 5px;
 }
+
+.projects-back-link {
+	text-decoration: none;
+	float: right;
+}
+
+.projects-back-link:HOVER {
+	text-decoration: none;
+	color: #03A9F4;
+}

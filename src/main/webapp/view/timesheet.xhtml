@@ -5,10 +5,14 @@
 	<ui:define name="body">
 		<h:form>
 			<p:panel header="Таймшит" styleClass="page-content-center">
-				<p:outputLabel for="selectedDate" value="Выбранная дата: " />
-				<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" />
-
-				<div style="clear: both; float: none;"></div>
+				<h:panelGrid columns="3" cellspacing="5">
+					<p:outputLabel for="selectedDate" value="Выбранная дата: " />
+					<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" value="#{mainBean.selectedDate}"/>
+					<p:commandButton value="Обновить" update="totalTime"/>
+					<p:outputLabel for="totalTime" value="Отработано часов: " />
+					<p:outputLabel id="totalTime" value="#{mainBean.workingTime}" />
+					<div style="clear: both; float: none;"></div>
+				</h:panelGrid>
 			</p:panel>
 			<div style="clear: both; float: none;"></div>
 		</h:form>
