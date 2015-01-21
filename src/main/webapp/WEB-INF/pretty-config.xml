@@ -14,6 +14,21 @@
 		<view-id value="/view/welcome.jsf" />
 	</url-mapping>
 
+	<url-mapping id="project">
+		<pattern value="/project" />
+		<view-id value="/view/project.jsf" />
+	</url-mapping>
+
+	<url-mapping id="timesheet">
+		<pattern value="/timesheet" />
+		<view-id value="/view/timesheet.jsf" />
+	</url-mapping>
+	
+	<url-mapping id="ticket">
+		<pattern value="/ticket" />
+		<view-id value="/view/ticket.jsf" />
+	</url-mapping>
+			
 	<url-mapping id="login">
 		<pattern value="/login" />
 		<view-id value="/view/login.jsf" />

@@ -7,7 +7,6 @@ import java.util.List;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.corporateforce.client.config.Config;
 import org.corporateforce.server.model.Status;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 public abstract class AbstractPort<T> {

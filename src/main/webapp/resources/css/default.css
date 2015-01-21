@@ -69,7 +69,7 @@ body {
 	padding-left: 170px;
 	padding-bottom: 35px;
 	background: url(../resources/images/img_logo_small.png) no-repeat 0 0px;
-	z-index: 9999;
+	z-index: 1000;
 }
 
 .menubar-block-right {
@@ -234,4 +234,20 @@ body {
 
 .ui-datatable-tablewrapper table {
 	font-size: small;
+}
+
+.ui-datatable-tablewrapper .ui-button {
+	font-size: small;
+	margin: 2px;
+}
+
+.ui-datatable-tablewrapper .ui-button .ui-button-text {
+	padding-top: 2px;
+	padding-bottom: 2px;
+	padding-left: 4px;
+	padding-right: 4px;
+}
+
+.console-dialog-buttons-bottom {
+	padding-top: 5px;
 }

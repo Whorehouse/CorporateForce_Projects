@@ -19,8 +19,15 @@
 		<ui:insert name="header">
 			<ui:include src="/view/components/header.xhtml" />
 		</ui:insert>
-		<ui:insert name="body">
-		</ui:insert>
+		<p:outputPanel>
+			<div class="page-container">
+				<p:panel styleClass="page-block">
+					<ui:include src="/view/components/leftmenu.xhtml" />
+					<ui:insert name="body"></ui:insert>
+					<div style="float:none;clear:both;"></div>
+				</p:panel>
+			</div>
+		</p:outputPanel>
 		<ui:insert name="script">
 		</ui:insert>
 		<ui:insert name="footer">

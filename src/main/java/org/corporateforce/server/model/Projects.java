@@ -106,7 +106,7 @@ public class Projects implements java.io.Serializable {
 	}
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "UPDATED", nullable = false, length = 19)
+	@Column(name = "UPDATED", nullable = false, length = 19, updatable = false)
 	public Date getUpdated() {
 		return this.updated;
 	}

@@ -1,0 +1,48 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" template="/view/templates/default.xhtml">
+	<ui:define name="body">
+		<h:form>
+			<p:panel rendered="#{usersBean.isSignedIn()}" header="#{projectsBean.currentProject.name} (#{projectsBean.getStatusesMap().get(projectsBean.currentProject.status)})"
+				styleClass="page-content-center">
+				<p:tabView id="projectContainer">
+					<p:tab title="Основная информация">
+						<p:outputPanel styleClass="projects-block-info">
+							<h:panelGrid columns="1" cellspacing="5">
+								<h:outputText value="#{projectsBean.currentProject.description}" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" cellspacing="5">
+								<h:outputText value="Лидер: " />
+								<h:outputText value="#{projectsBean.currentProject.usersByLead.username}" styleClass="projects-text-inner" />
+							</h:panelGrid>
+							<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
+								<h:outputText value="Создал: " />
+								<h:outputText value="#{projectsBean.currentProject.usersByCreator.username}" styleClass="projects-text-inner" />
+								<h:outputText value="Дата создания: " />
+								<h:outputText value="#{projectsBean.currentProject.created}" styleClass="projects-text-inner">
+									<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+								</h:outputText>
+								<h:outputText value="Дата обновления: " />
+								<h:outputText value="#{projectsBean.currentProject.updated}" styleClass="projects-text-inner">
+									<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+								</h:outputText>
+							</h:panelGrid>
+						</p:outputPanel>
+
+						<div style="clear: both; float: none;"></div>
+
+						<p:panel header="Документация" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="docsPanel">
+						</p:panel>
+						<p:panel header="Задачи" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="objPanel">
+						</p:panel>
+					</p:tab>
+					<p:tab title="Задания">
+					</p:tab>
+				</p:tabView>
+				<div style="clear: both; float: none;"></div>
+			</p:panel>
+			<div style="clear: both; float: none;"></div>
+		</h:form>
+	</ui:define>
+</ui:composition>

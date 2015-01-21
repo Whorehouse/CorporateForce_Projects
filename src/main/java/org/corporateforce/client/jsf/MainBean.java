@@ -6,7 +6,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.corporateforce.client.config.Config;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,9 @@ public class MainBean implements Serializable {
 	
 	public static final String PAGE_INDEX = "/index";
 	public static final String PAGE_WELCOME = "/welcome";
+	public static final String PAGE_PROJECT = "/project";
+	public static final String PAGE_TIMESHEET = "/timesheet";
+	public static final String PAGE_TICKET = "/ticket";
 	
 	private static final String MODULE_FACES = "Faces";
 	private static final String MODULE_PROJECTS = "Projects";
@@ -39,7 +41,18 @@ public class MainBean implements Serializable {
 	public void actionMainPage() throws Exception {
 		this.redirect(PAGE_INDEX);
 	}
+
+	public void actionProjectPage() throws Exception {
+		this.redirect(PAGE_PROJECT);
+	}
 	
+	public void actionTimesheetPage() throws Exception {
+		this.redirect(PAGE_TIMESHEET);
+	}
+	
+	public void actionTicketPage() throws Exception {
+		this.redirect(PAGE_TICKET);
+	}
 
 	//External resources
 	
@@ -70,4 +83,7 @@ public class MainBean implements Serializable {
 	public void actionOpenTrainings() throws Exception {
 		this.redirect(Config.getUriModule(MODULE_TRAININGS),true);
 	}
+	
+
+	
 }
