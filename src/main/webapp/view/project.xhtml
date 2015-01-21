@@ -32,10 +32,43 @@
 
 						<div style="clear: both; float: none;"></div>
 
-						<p:panel header="Документация" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="docsPanel">
+						<p:panel header="Документация" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="docsPanel" styleClass="projects-panel-inline">
 							<p:outputPanel styleClass="projects-panel-top" rendered="#{usersBean.isSystemControlAccess()}">
-								<p:commandButton value="Создать документ" update="@([id$=editArticleDialogGrid])" action="#{projectsBean.actionCreate}" onsuccess="PF('editArticleDialog').show();" process="@this" />
+								<p:commandButton value="Создать документ" update="@([id$=editArticleDialogGrid])" action="#{articlesBean.actionCreate}" onsuccess="PF('editArticleDialog').show();" process="@this" />
 							</p:outputPanel>
+
+							<p:dataGrid var="article" value="#{articlesBean.articlesList}" columns="1" layout="grid" rows="10" paginator="true" id="articlesTable" emptyMessage="Нет документов"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
+								<p:panel header="#{article.name}" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="article_#{article.id}">
+									<p:outputPanel styleClass="projects-block-info projects-block-info-after">
+										<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
+											<h:outputText value="Создал: " />
+											<h:outputText value="#{article.users.username}" styleClass="projects-text-inner" />
+											<h:outputText value="Дата создания: " />
+											<h:outputText value="#{article.created}" styleClass="projects-text-inner">
+												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+											</h:outputText>
+											<h:outputText value="Дата обновления: " />
+											<h:outputText value="#{article.updated}" styleClass="projects-text-inner">
+												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+											</h:outputText>
+										</h:panelGrid>
+									</p:outputPanel>
+									<h:panelGrid columns="2" cellspacing="3" styleClass="projects-block-buttons" rendered="#{usersBean.isSystemControlAccess()}">
+										<p:commandButton value="Изменить" update="@([id$=editArticleDialogGrid])" action="#{articlesBean.actionEdit}" onsuccess="PF('editArticleDialog').show();" process="@this">
+											<f:param name="editArticleId" value="#{article.id}" />
+										</p:commandButton>
+										<p:commandButton value="Удалить" action="#{articlesBean.actionDelete}" update="@([id$=articlesTable])" process="@this">
+											<f:param name="deleteArticleId" value="#{article.id}" />
+										</p:commandButton>
+									</h:panelGrid>
+									<p:separator style="width:100%; height:5px;" />
+									<p:outputPanel styleClass="projects-text-document">									
+										<h:outputText value="#{article.body}" escape="false" />
+									</p:outputPanel>
+									<div style="clear: both; float: none;"></div>
+								</p:panel>
+							</p:dataGrid>
 
 							<h:form id="editArticleForm">
 								<p:dialog header="Редактирование документа" widgetVar="editArticleDialog" modal="true">
@@ -43,23 +76,59 @@
 
 									</h:panelGrid>
 									<div class="projects-dialog-buttons-bottom">
-										<p:commandButton value="Сохранить" action="#{projectsBean.saveEdit}" onsuccess="PF('editArticleDialog').hide();" update="@([id$=articlesTable])" process="@this,editArticleForm" />
+										<p:commandButton value="Сохранить" action="#{articlesBean.saveEdit}" onsuccess="PF('editArticleDialog').hide();" update="@([id$=articlesTable])" process="@this,editArticleForm" />
 									</div>
 								</p:dialog>
 							</h:form>
 						</p:panel>
-						<p:panel header="Задачи" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="objPanel">
+						<p:panel header="Задачи" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="objPanel" styleClass="projects-panel-inline">
 							<p:outputPanel styleClass="projects-panel-top" rendered="#{usersBean.isSystemControlAccess()}">
-								<p:commandButton value="Создать задачу" update="@([id$=editObjectiveDialogGrid])" action="#{projectsBean.actionCreate}" onsuccess="PF('editObjectiveDialog').show();" process="@this" />
+								<p:commandButton value="Создать задачу" update="@([id$=editObjectiveDialogGrid])" action="#{objectivesBean.actionCreate}" onsuccess="PF('editObjectiveDialog').show();" process="@this" />
 							</p:outputPanel>
+
+							<p:dataGrid var="objective" value="#{objectivesBean.objectivesList}" columns="1" layout="grid" rows="10" paginator="true" id="objectivesTable" emptyMessage="Нет задач"
+								paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
+								<p:panel header="#{objective.description} (#{objectivesBean.getStatusesMap().get(objective.status)})" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300"
+									closeSpeed="200" widgetVar="objective_#{objective.id}">
+									<p:outputPanel styleClass="projects-block-info">
+										<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
+											<h:outputText value="Создал: " />
+											<h:outputText value="#{objective.users.username}" styleClass="projects-text-inner" />
+											<h:outputText value="Дата создания: " />
+											<h:outputText value="#{objective.created}" styleClass="projects-text-inner">
+												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+											</h:outputText>
+											<h:outputText value="Дата обновления: " />
+											<h:outputText value="#{objective.updated}" styleClass="projects-text-inner">
+												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
+											</h:outputText>
+										</h:panelGrid>
+									</p:outputPanel>
+									<h:panelGrid columns="2" cellspacing="3" styleClass="projects-block-buttons" rendered="#{usersBean.isSystemControlAccess()}">
+										<p:commandButton value="Изменить" update="@([id$=editObjectiveDialogGrid])" action="#{objectivesBean.actionEdit}" onsuccess="PF('editObjectiveDialog').show();" process="@this">
+											<f:param name="editObjectiveId" value="#{objective.id}" />
+										</p:commandButton>
+										<p:commandButton value="Удалить" action="#{objectivesBean.actionDelete}" update="@([id$=objectivesTable])" process="@this">
+											<f:param name="deleteObjectiveId" value="#{objective.id}" />
+										</p:commandButton>
+									</h:panelGrid>
+									<div style="clear: both; float: none;"></div>
+								</p:panel>
+							</p:dataGrid>
 
 							<h:form id="editObjectiveForm">
 								<p:dialog header="Редактирование задачи" widgetVar="editObjectiveDialog" modal="true">
 									<h:panelGrid columns="2" cellpadding="3" id="editObjectiveDialogGrid">
-
+										<p:outputLabel for="editObjectiveDescription" value="Описание: " />
+										<p:inputTextarea id="editObjectiveDescription" autoResize="false" value="#{objectivesBean.editObjective.description}" />
+										<p:outputLabel value="Статус: " />
+										<p:selectOneMenu id="editObjectiveStatus" value="#{objectivesBean.editObjective != null ? objectivesBean.editObjective.status : ''}" style="width:200px" filter="true"
+											filterMatchMode="startsWith">
+											<f:selectItems value="#{objectivesBean.statusesMap.entrySet()}" var="status" itemLabel="#{status.value}" itemValue="#{status.key}" />
+										</p:selectOneMenu>
 									</h:panelGrid>
 									<div class="projects-dialog-buttons-bottom">
-										<p:commandButton value="Сохранить" action="#{projectsBean.saveEdit}" onsuccess="PF('editObjectiveDialog').hide();" update="@([id$=objectivesTable])" process="@this,editObjectiveForm" />
+										<p:commandButton value="Сохранить" action="#{objectivesBean.saveEdit}" onsuccess="PF('editObjectiveDialog').hide();" update="@([id$=objectivesTable])" process="@this,editObjectiveForm" />
 									</div>
 								</p:dialog>
 							</h:form>

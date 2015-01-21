@@ -39,10 +39,6 @@ public class ProjectsBean {
 		return projectsList;
 	}
 
-	public List<Articles> getArticlesList() {
-		return articlesPort.list();
-	}
-
 	public void refreshProjectsList() {
 		projectsList = projectsPort.list();
 	}

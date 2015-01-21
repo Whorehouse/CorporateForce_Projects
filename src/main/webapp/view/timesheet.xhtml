@@ -4,7 +4,13 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:c="http://java.sun.com/jsp/jstl/core" template="/view/templates/default.xhtml">
 	<ui:define name="body">
 		<h:form>
-			
+			<p:panel header="Таймшит" styleClass="page-content-center">
+				<p:outputLabel for="selectedDate" value="Выбранная дата: " />
+				<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" />
+
+				<div style="clear: both; float: none;"></div>
+			</p:panel>
+			<div style="clear: both; float: none;"></div>
 		</h:form>
 	</ui:define>
 </ui:composition>

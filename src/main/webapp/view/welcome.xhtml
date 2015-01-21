@@ -24,7 +24,7 @@
 					<p:outputPanel styleClass="projects-panel-top" rendered="#{usersBean.isSystemControlAccess()}">
 						<p:commandButton value="Создать проект" update="@([id$=editProjectDialogGrid])" action="#{projectsBean.actionCreate}" onsuccess="PF('editProjectDialog').show();" process="@this" />
 					</p:outputPanel>
-					<p:dataGrid var="project" value="#{projectsBean.projectsList}" columns="1" layout="grid" rows="10" paginator="true" id="projectsTable"
+					<p:dataGrid var="project" value="#{projectsBean.projectsList}" columns="1" layout="grid" rows="10" paginator="true" id="projectsTable" emptyMessage="Нет проектов"
 						paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}" rowsPerPageTemplate="5,10,15">
 						<p:panel header="" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="#{project.id}">
 							<f:facet name="actions">

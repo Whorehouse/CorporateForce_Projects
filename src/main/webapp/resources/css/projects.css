@@ -93,10 +93,22 @@
 	float: left;
 }
 
+.projects-block-info-after {
+	padding-bottom: 10px;
+}
+
 .projects-dialog-buttons-bottom {
 	padding-top: 10px;
 }
 
 .projects-panel-top {
 	padding-bottom: 10px;
+}
+
+.projects-panel-inline {
+	margin-top: 10px;
+}
+
+.projects-text-document {
+	padding: 5px;
 }
