@@ -33,8 +33,36 @@
 						<div style="clear: both; float: none;"></div>
 
 						<p:panel header="Документация" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="docsPanel">
+							<p:outputPanel styleClass="projects-panel-top" rendered="#{usersBean.isSystemControlAccess()}">
+								<p:commandButton value="Создать документ" update="@([id$=editArticleDialogGrid])" action="#{projectsBean.actionCreate}" onsuccess="PF('editArticleDialog').show();" process="@this" />
+							</p:outputPanel>
+
+							<h:form id="editArticleForm">
+								<p:dialog header="Редактирование документа" widgetVar="editArticleDialog" modal="true">
+									<h:panelGrid columns="2" cellpadding="3" id="editArticleDialogGrid">
+
+									</h:panelGrid>
+									<div class="projects-dialog-buttons-bottom">
+										<p:commandButton value="Сохранить" action="#{projectsBean.saveEdit}" onsuccess="PF('editArticleDialog').hide();" update="@([id$=articlesTable])" process="@this,editArticleForm" />
+									</div>
+								</p:dialog>
+							</h:form>
 						</p:panel>
 						<p:panel header="Задачи" toggleable="true" toggleTitle="Подробности" collapsed="true" toggleSpeed="300" closeSpeed="200" widgetVar="objPanel">
+							<p:outputPanel styleClass="projects-panel-top" rendered="#{usersBean.isSystemControlAccess()}">
+								<p:commandButton value="Создать задачу" update="@([id$=editObjectiveDialogGrid])" action="#{projectsBean.actionCreate}" onsuccess="PF('editObjectiveDialog').show();" process="@this" />
+							</p:outputPanel>
+
+							<h:form id="editObjectiveForm">
+								<p:dialog header="Редактирование задачи" widgetVar="editObjectiveDialog" modal="true">
+									<h:panelGrid columns="2" cellpadding="3" id="editObjectiveDialogGrid">
+
+									</h:panelGrid>
+									<div class="projects-dialog-buttons-bottom">
+										<p:commandButton value="Сохранить" action="#{projectsBean.saveEdit}" onsuccess="PF('editObjectiveDialog').hide();" update="@([id$=objectivesTable])" process="@this,editObjectiveForm" />
+									</div>
+								</p:dialog>
+							</h:form>
 						</p:panel>
 					</p:tab>
 					<p:tab title="Задания">

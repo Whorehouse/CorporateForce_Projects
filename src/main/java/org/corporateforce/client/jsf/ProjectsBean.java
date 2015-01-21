@@ -1,14 +1,15 @@
 package org.corporateforce.client.jsf;
 
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.faces.context.FacesContext;
 
+import org.corporateforce.server.model.Articles;
 import org.corporateforce.server.model.Projects;
 import org.corporateforce.server.model.Users;
+import org.corporateforce.client.port.ArticlesPort;
 import org.corporateforce.client.port.ProjectsPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -21,18 +22,27 @@ public class ProjectsBean {
 	private Projects currentProject;
 	private Projects editProject;
 	private List<Projects> projectsList;
-	
+	private Boolean createMode;
+
 	@Autowired
 	private MainBean mainBean;
 	@Autowired
+	private UsersBean usersBean;
+	@Autowired
 	private ProjectsPort projectsPort;
+	@Autowired
+	private ArticlesPort articlesPort;
 
 	public List<Projects> getProjectsList() {
 		if (projectsList == null)
 			projectsList = projectsPort.list();
 		return projectsList;
 	}
-	
+
+	public List<Articles> getArticlesList() {
+		return articlesPort.list();
+	}
+
 	public void refreshProjectsList() {
 		projectsList = projectsPort.list();
 	}
@@ -56,6 +66,7 @@ public class ProjectsBean {
 	}
 
 	public void actionEdit() {
+		createMode = false;
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
 		String id = params.get("editProjectId");
@@ -67,7 +78,7 @@ public class ProjectsBean {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void actionDelete() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
@@ -79,9 +90,9 @@ public class ProjectsBean {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
-	
+
 	public Map<String, String> getStatusesMap() throws Exception {
 		Map<String, String> statuses = new HashMap<String, String>();
 		statuses.put("active", "Активный");
@@ -89,12 +100,16 @@ public class ProjectsBean {
 		statuses.put("closed", "Закрыт");
 		return statuses;
 	}
-	
+
 	public void saveEdit() throws Exception {
-		projectsPort.update(editProject);
+		if (createMode)
+			projectsPort.add(editProject);
+		else
+			projectsPort.update(editProject);
+		createMode = false;
 		refreshProjectsList();
 	}
-	
+
 	public void actionOpen() {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		Map<String, String> params = fc.getExternalContext().getRequestParameterMap();
@@ -106,7 +121,16 @@ public class ProjectsBean {
 			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
-	}	
+		}
+	}
+
+	public void actionCreate() {
+		createMode = true;
+		editProject = new Projects();
+		editProject.setUsersByCreator(usersBean.getCurrentUser());
+		editProject.setUsersByLead(new Users());	
+	}
+	
+	
 
 }
