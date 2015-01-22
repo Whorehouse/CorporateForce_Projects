@@ -25,8 +25,6 @@ public class UsersBean {
 	private List<Users> listUsers;
 	
 	@Autowired
-	private MainBean mainBean;	
-	@Autowired
 	private UsersPort usersPort;
 	@Autowired
 	private ContactsPort contactsPort;
@@ -203,10 +201,6 @@ public class UsersBean {
 	
 	public void setListUsers(List<Users> listUsers) {
 		this.listUsers = listUsers;
-	}
-	
-	public void setMainBean(MainBean mainBean) {
-		this.mainBean = mainBean;
 	}
 	
 	public void setShowUser(Users showUser) {

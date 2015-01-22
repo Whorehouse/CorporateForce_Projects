@@ -5,14 +5,25 @@
 	<ui:define name="body">
 		<h:form>
 			<p:panel header="Таймшит" styleClass="page-content-center">
-				<h:panelGrid columns="3" cellspacing="5">
+				<h:panelGrid columns="2" cellspacing="5">
 					<p:outputLabel for="selectedDate" value="Выбранная дата: " />
-					<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" value="#{mainBean.selectedDate}"/>
-					<p:commandButton value="Обновить" update="totalTime"/>
+					<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" pattern="dd.MM.yyyy">
+						<p:ajax event="dateSelect" listener="#{mainBean.onDateSelect}" update="worklogsTable, totalTime" />
+					</p:calendar>
 					<p:outputLabel for="totalTime" value="Отработано часов: " />
-					<p:outputLabel id="totalTime" value="#{mainBean.workingTime}" />
+					<p:outputLabel id="totalTime" value="#{mainBean.workingTime} ч" />
 					<div style="clear: both; float: none;"></div>
 				</h:panelGrid>
+				<div style="clear: both; float: none;"></div>
+				<p:dataTable var="worklog" value="#{mainBean.workTimeList}" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}" paginator="true"
+					rows="10" id="worklogsTable" emptyMessage="Не найдено ворклогов">
+					<p:column headerText="Название проекта">
+						<h:outputText value="#{worklog.tickets.projects.name}" />
+					</p:column>
+					<p:column headerText="Время">
+						<h:outputText value="#{worklog.time} ч" />
+					</p:column>
+				</p:dataTable>
 			</p:panel>
 			<div style="clear: both; float: none;"></div>
 		</h:form>

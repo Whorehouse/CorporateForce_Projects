@@ -63,7 +63,7 @@
 									</h:panelGrid>
 								</p:outputPanel>
 
-								<h:panelGrid columns="2" cellspacing="3" styleClass="projects-block-buttons" rendered="#{usersBean.isSystemControlAccess()}">
+								<h:panelGrid columns="2" cellspacing="3" styleClass="projects-block-buttons">
 									<p:commandButton value="Изменить" update="@([id$=editWorklogDialogGrid])" action="#{worklogsBean.actionEdit}" onsuccess="PF('editWorklogDialog').show();" process="@this">
 										<f:param name="editWorklogId" value="#{worklog.id}" />
 									</p:commandButton>

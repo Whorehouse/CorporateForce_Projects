@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -13,8 +14,10 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 import org.corporateforce.client.config.Config;
+import org.corporateforce.client.port.UsersPort;
 import org.corporateforce.client.port.WorklogsPort;
 import org.corporateforce.server.model.Worklogs;
+import org.primefaces.event.SelectEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -26,14 +29,18 @@ public class MainBean implements Serializable {
 
 	@Autowired
 	private WorklogsPort worklogsPort;
+	@Autowired
+	private UsersBean usersBean;
 
-	private Date selectedDate;
+	private String selectedDate;
+	
+	private List<Worklogs> worklogsList;
 
-	public Date getSelectedDate() {
+	public String getSelectedDate() {
 		return selectedDate;
 	}
 
-	public void setSelectedDate(Date selectedDate) {
+	public void setSelectedDate(String selectedDate) {
 		this.selectedDate = selectedDate;
 	}
 
@@ -110,19 +117,30 @@ public class MainBean implements Serializable {
 		this.redirect(Config.getUriModule(MODULE_TRAININGS), true);
 	}
 
-	public Map<String, String> getWorkTimeMap() throws ParseException {
-		Map<String, String> result = new HashMap<String, String>();
-		System.out.println(selectedDate);
-		if (selectedDate == null)
+	public void onDateSelect(SelectEvent selectedDate) {
+		SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+		this.selectedDate = format.format(selectedDate.getObject());
+		System.out.println("Clendar Selected date: " + selectedDate);
+		worklogsList = worklogsPort.list();
+	}
+
+	public List<Worklogs> getWorkTimeList() throws ParseException {
+		List<Worklogs> result = new ArrayList<Worklogs>();
+		System.out.println("Selected date: " + selectedDate);
+		if (selectedDate == null || worklogsList == null)
 			return result;
-		List<Worklogs> worklogsList = worklogsPort.list();
 
 		workingTime = "0.0";
 		Double summ = 0.0;
 
 		for (Worklogs w : worklogsList) {
-			if (w.getCreated().getDay() == selectedDate.getDay() && w.getCreated().getMonth() == selectedDate.getMonth() && w.getCreated().getYear() == selectedDate.getYear()) {
-				result.put(w.getTickets().getProjects().getName(), w.getTime().toString());
+
+			SimpleDateFormat simpleFormat = new SimpleDateFormat("dd.MM.yyyy");
+			String formatedDate = simpleFormat.format(w.getCreated());
+			System.out.println("w date into dd.MM.yyyy format: " + formatedDate);
+
+			if (formatedDate.equals(selectedDate) && (usersBean.isManageUsersAccess() || usersBean.getCurrentUser().getId() == w.getUsers().getId())) {
+				result.add(w);
 				summ += Double.parseDouble(w.getTime().toString());
 			}
 		}
@@ -131,8 +149,28 @@ public class MainBean implements Serializable {
 		return result;
 	}
 
-	public String getWorkingTime() throws ParseException {
-		Map<String, String> m = getWorkTimeMap();
+	public String getWorkingTime() {
+
+		workingTime = "0.0";
+		
+		if (selectedDate == null || worklogsList == null)
+			return workingTime;	
+
+		Double summ = 0.0;
+
+		for (Worklogs w : worklogsList) {
+
+			SimpleDateFormat simpleFormat = new SimpleDateFormat("dd.MM.yyyy");
+			String formatedDate = simpleFormat.format(w.getCreated());
+			System.out.println("w date into dd.MM.yyyy format: " + formatedDate);
+
+			if (formatedDate.equals(selectedDate) && (usersBean.isManageUsersAccess() || usersBean.getCurrentUser().getId() == w.getUsers().getId())) {
+				summ += Double.parseDouble(w.getTime().toString());
+			}
+		}
+
+		workingTime = summ.toString();
+		
 		return workingTime;
 	}
 
