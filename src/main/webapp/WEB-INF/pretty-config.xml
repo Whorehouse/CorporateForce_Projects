@@ -28,15 +28,5 @@
 		<pattern value="/ticket" />
 		<view-id value="/view/ticket.jsf" />
 	</url-mapping>
-			
-	<url-mapping id="login">
-		<pattern value="/login" />
-		<view-id value="/view/login.jsf" />
-	</url-mapping>
-
-	<url-mapping id="logout">
-		<pattern value="/logout" />
-		<view-id value="/view/logout.jsf" />
-	</url-mapping>
 
 </pretty-config>

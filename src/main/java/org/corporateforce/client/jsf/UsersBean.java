@@ -174,21 +174,22 @@ public class UsersBean {
 	
 	//Contacts
     
-    public void login() {
-		String login = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("login");
-		String password = (String) FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("password");
-		System.out.println("HEEEY Faces Login "+login+" password "+password);
+	public boolean login(String login, String password) {
+		System.out.println("HEY Faces Login "+login+" password "+password);
 		Users res = usersPort.login(login, password);
 		if (res!=null && res.getId()>0) {
 			System.out.println(res);
-			currentUser = res;			
+			currentUser = res;
+			return true;
 		} else {
 			System.out.println("No:"+res);
+			return false;
 		}
 	}
     
-	public void logout() {
+	public boolean logout() {
 		currentUser = null;
+		return true;
 	}
     
 	public void setContactsPort(ContactsPort contactsPort) {
