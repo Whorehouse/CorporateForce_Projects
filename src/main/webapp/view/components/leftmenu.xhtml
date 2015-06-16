@@ -5,8 +5,8 @@
 	<h:form rendered="#{usersBean.isSignedIn()}">
 		<p:megaMenu class="user-left-menu" orientation="vertical" rendered="#{usersBean.isSignedIn()}">
 			<p:menuitem value="Проекты" actionListener="#{mainBean.actionMainPage}" icon="ui-icon-copy" />
-			<p:menuitem value="Таймшит" actionListener="#{mainBean.actionTimesheetPage}" icon="ui-icon-calendar">
-			</p:menuitem>
+			<p:menuitem value="Таймшит" actionListener="#{mainBean.actionTimesheetPage}" icon="ui-icon-calendar"/>
+			<p:menuitem value="Справка" actionListener="#{mainBean.actionSupportPage}" icon="ui-icon-help"/>
 		</p:megaMenu>
 	</h:form>
 </ui:composition>

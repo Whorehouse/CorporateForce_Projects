@@ -28,7 +28,23 @@ public class UsersBean {
 	private UsersPort usersPort;
 	@Autowired
 	private ContactsPort contactsPort;
-	
+
+	public Boolean isUserSignedIn() {
+		return currentUser != null;
+	}
+
+	public String getCurrentUserFullName() {
+		if (this.currentUser == null) return null;
+		return isExistContacts() ? this.currentUser.getContacts().getFirstname() + " "
+				+ this.currentUser.getContacts().getLastname() : this.currentUser.getUsername();
+	}
+
+	public String getUserFullName(Users u) {
+		if (u == null) return null;
+		return isExistContacts(u) ? u.getContacts().getFirstname() + " "
+				+ u.getContacts().getLastname() : u.getUsername();
+	}
+
 	public String getAvatar() {
     	if (isExistAvatar()) {
     		return Config.getUriServer()+"Avatars/showAvatar/"+currentUser.getContacts().getAvatars().getId();
@@ -190,6 +206,16 @@ public class UsersBean {
 	public boolean logout() {
 		currentUser = null;
 		return true;
+	}
+	
+	public Boolean signOut() {
+		try {
+			FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+			return true;
+		} catch (Exception e) {
+			System.out.println("DEBUG: UsersBean error: " + e.getMessage());
+			return false;
+		}
 	}
     
 	public void setContactsPort(ContactsPort contactsPort) {

@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:b="http://bootsfaces.net/ui"
+	template="/view/templates/default.xhtml">
+	<ui:define name="body">
+	<h:panelGrid columns="2" styleClass="main-header">
+		<b:iconAwesome name="support" size="3x"/>
+		<h:outputLabel value="Справка" styleClass="main-header-text" />
+	</h:panelGrid>
+	<hr/>
+	<h:panelGrid columns="2" styleClass="main-support-table">
+
+		<h:outputText value="Разработчики:" />
+		<h:panelGroup>
+			<h:outputLabel value="Петрович Адам Геннадьевич" />
+			<h:outputLabel value="Чепурненко Сергей Александрович" />
+			<h:outputLabel value="Медведский Павел Владимирович" />
+		</h:panelGroup>
+	
+		<h:outputText value="По вопросам поддержки:" />
+		<h:panelGroup>
+			<h:outputLabel value="sweetwhorehouse@gmail.com" />
+		</h:panelGroup>
+	
+		<h:outputText value="Сторонние разработки:" />
+		<h:panelGroup>
+			<h:outputLink  value="http://www.bootsfaces.net/" target="_blank">BootsFaces</h:outputLink>
+			<h:outputLink value="https://jquery.com/" target="_blank">jQuery</h:outputLink>
+		</h:panelGroup>
+
+	</h:panelGrid>
+	</ui:define>
+</ui:composition>

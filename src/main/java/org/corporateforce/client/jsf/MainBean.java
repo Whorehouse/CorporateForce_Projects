@@ -86,6 +86,10 @@ public class MainBean implements Serializable {
 	public void actionTicketPage() throws Exception {
 		this.redirect(PAGE_TICKET);
 	}
+	
+	public void actionSupportPage() throws Exception {
+		this.redirect("/support");
+	}
 
 	// External resources
 

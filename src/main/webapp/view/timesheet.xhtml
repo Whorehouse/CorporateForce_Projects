@@ -5,7 +5,7 @@
 	<ui:define name="body">
 		<h:form>
 			<p:panel header="Таймшит" styleClass="page-content-center">
-				<h:panelGrid columns="2" cellspacing="5">
+				<h:panelGrid columns="2" cellspacing="5" styleClass="timesheet-select-block">
 					<p:outputLabel for="selectedDate" value="Выбранная дата: " />
 					<p:calendar id="selectedDate" showOn="button" locale="ru" navigator="true" title="Календарь" pattern="dd.MM.yyyy">
 						<p:ajax event="dateSelect" listener="#{mainBean.onDateSelect}" update="worklogsTable, totalTime" />

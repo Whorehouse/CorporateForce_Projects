@@ -14,11 +14,11 @@
 							</h:panelGrid>
 							<h:panelGrid columns="2" cellspacing="5">
 								<h:outputText value="Лидер: " />
-								<h:outputText value="#{projectsBean.currentProject.usersByLead.username}" styleClass="projects-text-inner" />
+								<h:outputText value="#{usersBean.getUserFullName(projectsBean.currentProject.usersByLead)}" styleClass="projects-text-inner" />
 							</h:panelGrid>
 							<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
 								<h:outputText value="Создал: " />
-								<h:outputText value="#{projectsBean.currentProject.usersByCreator.username}" styleClass="projects-text-inner" />
+								<h:outputText value="#{usersBean.getUserFullName(projectsBean.currentProject.usersByCreator)}" styleClass="projects-text-inner" />
 								<h:outputText value="Дата создания: " />
 								<h:outputText value="#{projectsBean.currentProject.created}" styleClass="projects-text-inner">
 									<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
@@ -43,7 +43,7 @@
 									<p:outputPanel styleClass="projects-block-info projects-block-info-after">
 										<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
 											<h:outputText value="Создал: " />
-											<h:outputText value="#{article.users.username}" styleClass="projects-text-inner" />
+											<h:outputText value="#{usersBean.getUserFullName(article.users)}" styleClass="projects-text-inner" />
 											<h:outputText value="Дата создания: " />
 											<h:outputText value="#{article.created}" styleClass="projects-text-inner">
 												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
@@ -97,7 +97,7 @@
 									<p:outputPanel styleClass="projects-block-info">
 										<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
 											<h:outputText value="Создал: " />
-											<h:outputText value="#{objective.users.username}" styleClass="projects-text-inner" />
+											<h:outputText value="#{usersBean.getUserFullName(objective.users)}" styleClass="projects-text-inner" />
 											<h:outputText value="Дата создания: " />
 											<h:outputText value="#{objective.created}" styleClass="projects-text-inner">
 												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />
@@ -169,7 +169,7 @@
 										</h:panelGrid>
 										<h:panelGrid columns="2" cellspacing="5" styleClass="projects-block-info">
 											<h:outputText value="Создал: " />
-											<h:outputText value="#{ticket.usersByCreator.username}" styleClass="projects-text-inner" />
+											<h:outputText value="#{usersBean.getUserFullName(ticket.usersByCreator)}" styleClass="projects-text-inner" />
 											<h:outputText value="Дата создания: " />
 											<h:outputText value="#{ticket.created}" styleClass="projects-text-inner">
 												<f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss" />

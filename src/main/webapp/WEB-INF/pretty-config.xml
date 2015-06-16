@@ -29,4 +29,9 @@
 		<view-id value="/view/ticket.jsf" />
 	</url-mapping>
 
+	<url-mapping id="support">
+		<pattern value="/support" />
+		<view-id value="/view/support.jsf" />
+	</url-mapping>
+
 </pretty-config>
